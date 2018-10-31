@@ -4,16 +4,13 @@
  * and open the template in the editor.
  */
 package main;
-
-
 import java.util.*;
+
 /**
  *
- * @author tspinks
+ * @author ZdrytchX
  */
 public class Crossover {
-    
-    
 
     /**
      * @param args the command line arguments
@@ -54,6 +51,7 @@ public class Crossover {
         //SETTINGS
         //Substitute these values as needed ->->->->->->->->->->->->->->->->->->
         int genePool[] =    DemoLibrary;
+        //child is parent so that get modified and is da child
         int child1[] =     DemoChrome1;//parent genes
         int child2[] =     DemoChrome2;
             
@@ -156,7 +154,6 @@ public class Crossover {
     //Finds duplicate genes and fixes them in a single chromosome
     public static void checkGenes(int[] chrome, int[] genesAvail, int chromeSize)
     {       
-        int arraySize = genesAvail.length;
         int[] duplicatesCheck = new int[chromeSize];
         
     //Counts duplicate Genes in a chromosome

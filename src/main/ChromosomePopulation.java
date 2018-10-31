@@ -13,102 +13,144 @@ import java.util.*;
  */
 public class ChromosomePopulation {
     private int populationSize;
-    private int[][] multipleChromsomes = new int[][] {};
-    private int[] chromosomes;
-    private int chromosomeSize;
+    private int[][] multipleChromsomes = new int[][]{};
     
-    public ChromosomePopulation(int newpopulationSize, int[][] newmultipleChromsomes, int[] newChromosomes, int newChromosomeSize){
+    public ChromosomePopulation(int newpopulationSize, int[][] newmultipleChromsomes, int[] newChromosomes){
         this.populationSize = newpopulationSize;
         this.multipleChromsomes = newmultipleChromsomes;
-        this.chromosomes = newChromosomes;
-        this.chromosomeSize = newChromosomeSize;
     }
     
     public int getPopulationSize(){
         
         return populationSize;
     }
-   
-    
-    public int[] getChromosomes(int[][][] starMap, int populationSize, int randomSize){
-        int index = 0;
+
+    public int[][] getChromosomes(int[][] starMap, int universeStars, int populationSize){
+        ArrayList<Integer> starBank = new ArrayList<>();
+        //universeStar is the number of stars in the universe
+        multipleChromsomes = new int [populationSize][universeStars+1];
         
-        chromosomes = new int [randomSize];
-        
-        ArrayList<Integer> geneBank = new ArrayList<>();
-        
-        int x = 0;
-        for(int d = 0; d < randomSize; d++){
-            geneBank.add(d);
-        }
-        
-        geneBank.remove(x);
-        
-        for (int i=0; i < randomSize-1; i++){
-            int randomIndex = (int)(Math.random() * geneBank.size());
-            int y = geneBank.get(randomIndex);
-         
-            int gene = starMap[x][y][1];
+        for(int j = 0; j < populationSize; j++){
+
+            multipleChromsomes[j][0] = 0;
+            multipleChromsomes[j][universeStars] = 0;
+            
+            int startingStar = multipleChromsomes[j][0];
+            
+           for(int i=0; i < universeStars; i++){
+                starBank.add(i);
+            }
+
+           starBank.remove(startingStar);
            
+           for (int i = 0; i < starMap.length -1; i++){
+              int randomStarBankIndex = (int)(Math.random() * starBank.size());
+              int randomValue = starBank.get(randomStarBankIndex);
+              multipleChromsomes[j][i+1] = randomValue;
+              starBank.remove(randomStarBankIndex);
+             
+           }
+           
+            //this is on one line
+            for(int i = 0;i<starMap.length;i++)
+                System.out.println(multipleChromsomes[j][i] + " this is a test " + starMap[multipleChromsomes[j][i]][multipleChromsomes[j][i+1]]);
+            System.out.println("\n");
+            //this weird garbage:
+            //starMap[chromeList[j][i]][chromeList[j][i+1]]
+            //prints the distance between two genes of a chromosome
+            //it just looks weird because we are referring it by the chromeList array
             
-            chromosomes[i] = gene;
-            
-            System.out.println("gene " + chromosomes[i]);
-            System.out.println("geneBank before " + geneBank.size());
-            if(randomIndex > 0)
-                geneBank.remove(randomIndex);
-            System.out.println("geneBank aft " + geneBank.size());
-            
-            System.out.println("test: " + starMap[x][y][1] + "\n\n");
-            
-            
-            x=y;
         }
-        //add the remainder 
-        chromosomes[randomSize-1] = starMap[0][geneBank.get(0)][1];
-        System.out.println("ggtgtgt " + geneBank.get(0) + "\n\n");
-        
-        for(int i=0; i < chromosomes.length; i++){
-            int j = chromosomes[i];
-            System.out.println(j);
+
+        System.out.println("end of chrome generation\n");
+        //fresh print loop
+        for(int j = 0; j < populationSize; j++){
+            for (int i = 0; i < universeStars+1; i++){
+                System.out.println(multipleChromsomes[j][i]);
+            }
+                System.out.println("\n");
         }
-        
-        
-        /*
-        for(int x=0; x < randomSize; x++){
-            Random test = new Random();
-            int Low = 0;
-            int High = randomSize;
-            int test2 = test.nextInt(High-Low) + Low;
-            
-            for(int y=0; y < randomSize; y++){
-                Random test3 = new Random();
-                int Low1 = 0;
-                int High1 = randomSize;
-                int test4 = test3.nextInt(High1-Low1) + Low1;
-                
-                System.out.println("Index: " + starMap[test2][test4][1]);
-                System.out.println("Distance: " + starMap[test2][test4][0]);
-                
-                chromosomes 
-            }*/
-        
-   
-        
-     
-  
-        return chromosomes;
-    }
-   
-    
-    public int[][] getMultipleChromosomes(int[] chromosomes){
         
         return multipleChromsomes;
     }
     
-    public void setChromosomes(int[] newChromosomes){
-        chromosomes = newChromosomes;
+    public ArrayList<Integer> getFitness(int[][] starMap, int[][] allChomosomes){
+        ArrayList<Integer> allFitness = new ArrayList <>();
+        ArrayList<Integer> tempFit = new ArrayList <>();
+        int distanceValue = 0;
+        int fitnessValue = 0;
+        
+        for(int x = 0; x < allChomosomes.length; x++){
+            fitnessValue=0;
+            tempFit.clear();
+            for(int y = 0; y < allChomosomes[0].length-1; y++){
+  
+                //fitnesdsvalue isnt  a total yet (rem,inder()
+                distanceValue = starMap[allChomosomes[x][y]][allChomosomes[x][y+1]];
+                tempFit.add(y,distanceValue);
+                
+                //System.out.println("y: " + tempFit.get(y));
+                //System.out.println("test " + tempFit);
+
+                fitnessValue += tempFit.get(y);
+                //System.out.println("Fitness values: " + fitnessValue);
+            }
+            allFitness.add(fitnessValue);
+            System.out.println("All distances of this chrosomome: " + tempFit);
+            
+        }
+        System.out.println("Distance totals per chromosome: " + allFitness);
+        
+        return allFitness;
     }
+    
+    
+    public int getTotalPopfitness(ArrayList <Integer> allFitness){
+        int totalFitness = 0;
+        for(int i = 0; i < allFitness.size(); i++){
+            totalFitness += allFitness.get(i);
+        }
+        
+        return totalFitness;
+    }
+    
+    public ArrayList<Double> getRelativeFitness(ArrayList<Integer> allFitness, int totalFitness){
+        ArrayList<Double> allChromosomeRelativeFitness = new ArrayList<>();
+        double relFit = 0;
+        for(int i = 0; i < allFitness.size(); i++){
+            double currFitness = allFitness.get(i);
+            double dblTotalFitness = totalFitness;
+            
+            relFit = (dblTotalFitness-currFitness)/dblTotalFitness;
+            allChromosomeRelativeFitness.add(relFit);
+            
+        }
+        
+        //System.out.println(allChromosomeRelativeFitness);
+        
+        return allChromosomeRelativeFitness;
+    }
+    /*
+    public int[][] returnToChromey(int[][] starMap, ArrayList<Integer> allChromosomeRelativeFitness, int[][] allChomosomes){
+        
+        for(int x = 0; x < starMap.length; x++){
+            for(int y = 0; y < starMap.length-1; y++){
+                multipleChromsomes;
+            }
+        }
+        
+        
+        
+        return chromeyAgain;
+    }*/
+    
+    
+    /*
+    public int getStats(){
+        
+    }*/
+    
+   
     
     public void setMutlipleChromosomes(int[][] newmultipleChromsomes){
         multipleChromsomes = newmultipleChromsomes;
@@ -118,11 +160,7 @@ public class ChromosomePopulation {
         populationSize = newpopulationSize;
 
     }
-    
-    public void setChromosomeSize(int newChromosomeSize){
-        
-        chromosomeSize = newChromosomeSize;
-    }
+   
     
    
 }

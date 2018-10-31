@@ -16,31 +16,28 @@ public class GeneticAlgorithm {
      */
     public static void main(String[] args) {
         int minDistance = 1;
-        int[][] multipleChromsomes = new int[][] {};
         int[] chromosome = new int[0];
-        int[][][] starMap = new int[0][0][0];
+        int[][] starMap = new int[0][0];
+        ArrayList<Integer> allFitness = new ArrayList<>(); 
+        int[][] allChomosomes = new int[][]{};
         
-        Random randomDistance;
-        int randomSize;
-       
         System.out.println("Welcome to Star Traveller\n\n");
         
-        //THIS IS RANDOM!!!!!
         Scanner sc = new Scanner(System.in);
-        //THIS IS RANDOM!!!!!
         
         System.out.println("Enter a maximum star distance");
         int maxDistance = sc.nextInt();
         
+        System.out.println("Enter the amount of Stars in the Universe you want");
+        int universeStars = sc.nextInt();
 
         System.out.println("Enter the chromosome population size");
         int populationSize = sc.nextInt();
         
         //star map instance
-        SimpleMap newStarMap = new SimpleMap(minDistance, maxDistance, starMap);
+        SimpleMap newStarMap = new SimpleMap(minDistance, maxDistance, starMap, universeStars);
        
-        randomDistance = newStarMap.getRandomDistance();
-        randomSize = newStarMap.getRandomSize();
+        int curruniverseStars = newStarMap.getUniverseStars();
       
         
         starMap = newStarMap.getStarMap();
@@ -49,75 +46,29 @@ public class GeneticAlgorithm {
         //generate chromosomes
         
 
-        ChromosomePopulation newPopulation = new ChromosomePopulation(populationSize, multipleChromsomes, chromosome, randomSize);
+        ChromosomePopulation newPopulation = new ChromosomePopulation(populationSize, allChomosomes, chromosome);
        
         int currPopulationSize = newPopulation.getPopulationSize();
-        int[] chromosomes = newPopulation.getChromosomes(starMap, currPopulationSize, randomSize);
-        
 
+        allChomosomes = newPopulation.getChromosomes(starMap, curruniverseStars, currPopulationSize);
+        allFitness = newPopulation.getFitness(starMap, allChomosomes);
+        int totalFitness = newPopulation.getTotalPopfitness(allFitness);
+        ArrayList<Double> relativeFitness = newPopulation.getRelativeFitness(allFitness,totalFitness);
         
+        System.out.println("This is the total fitness of all Chromosome population: " + totalFitness);
+        System.out.println("This is the all relative fitnesses per the chromsomes: " + relativeFitness);
         
+        //send to selection sort
+        
+        /*
+        System.out.println("this is outside the class");
+        for(int j = 0; j < populationSize; j++){ 
+            for (int i = 0; i < universeStars; i++){
+                System.out.println(allChomosomes[j][i]);
+            }
+                System.out.println("\n");
+        }
+        */
         
     }
-    
-    /*public static int[][] generateMap(int maxNumberStars, int minDistance, int maxDistance) {
-        Random randDistance = new Random();
-        int randomSize = randDistance.nextInt(maxDistance);
-        
-        int[][] nodeTable = new int [randomSize][randomSize];
-        
-        for(int x=0; x < randomSize; x++){
-            for(int y=0; y < randomSize; y++){
-              
-               //System.out.println(x+", "+y);
-               
-                if(x==y){
-                    nodeTable[x][y]=0;
-                }else if(y < x) {
-                    nodeTable[x][y] = nodeTable[y][x];
-                    
-                }else{
-                    nodeTable[x][y] = randDistance.nextInt(maxDistance + 1) +minDistance;
-                }
-            }
-        }
-        
-        System.out.println("This is da map");
-        for (int x = 0; x < randomSize; x++) { 
-            for (int y = 0; y < randomSize; y++) { 
-                System.out.print(nodeTable[x][y] + "\t"); 
-            } 
-            System.out.println(); 
-        }
-        
-        return nodeTable;
-    }*/
-
-    
-    /*
-    public static int[][] createinitalChromosomes(int starMap[][], int multipleChromsomes[][], int populationSize){
-        //use the starmap
-        //for loop through the 2d array
-        //grabs values at x and y cords of array
-        //do this randomly
-        //account for like values
-        //avoid values with 0
-        int chromosome[];
-        int x = 0;
-        
-        
-        while (populationSize != x) {
-            x++;
-            
-            
-            
-            
-        }
-        
-        
-        
-        
-        return multipleChromsomes;
-    }*/
-    
 }

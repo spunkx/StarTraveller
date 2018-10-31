@@ -6,51 +6,44 @@ public class SimpleMap {
     private int minDistance;
     private int maxDistance;
     private static Random randomDistance;
-    private static int randomSize;
-    private int[][][] starMap;
+    private int universeStars;
+    private int[][] starMap;
 
-    public SimpleMap(int newminDistance, int newmaxDistance, int newStarMap[][][]){
+    public SimpleMap(int newMinDistance, int newMaxDistance, int newStarMap[][], int newUniverseStars){
         
-        this.minDistance = newminDistance;
-        this.maxDistance = newmaxDistance;
+        this.minDistance = newMinDistance;
+        this.maxDistance = newMaxDistance;
         this.starMap = newStarMap;
+        this.universeStars = newUniverseStars;
     }
     
-    public int[][][] getStarMap(){
-        starMap = new int [randomSize][randomSize][2];
-        int index = 0;
-        for(int x=0; x < randomSize; x++){
-            for(int y=0; y < randomSize; y++){
+    public int[][] getStarMap(){
+        starMap = new int [universeStars][universeStars];
+        randomDistance = new Random();
+        for(int x=0; x < universeStars; x++){
+            for(int y=0; y < universeStars; y++){
                 
                 if(x==y){
-                    starMap[x][y][0]=0;
-                    starMap[x][y][1] = index;
-                }else if(y < x) {
-                    starMap[x][y][0] = starMap[y][x][0];
-                    starMap[x][y][1] = index;
+                    starMap[x][y]=0;
                     
+                }else if(y < x) {
+                    starMap[x][y] = starMap[y][x];
+
                 }else{
-                    starMap[x][y][0] = randomDistance.nextInt(maxDistance) + minDistance;                  
-                    starMap[x][y][1] = index;
+                    starMap[x][y] = randomDistance.nextInt(maxDistance) + minDistance;   
                 }
-                index++;
+
             }
         }
 
         return starMap;
     }
-    
-    public Random getRandomDistance(){
-        randomDistance = new Random();
-        return randomDistance;
+
+    public int getUniverseStars(){
+        return universeStars;
     }
     
-    public int getRandomSize(){
-        randomSize = randomDistance.nextInt(maxDistance);
-        return randomSize;
-    }
-    
-    public void setStarMap(int[][][] newStarMap){
+    public void setStarMap(int[][] newStarMap){
         starMap = newStarMap;
     }
     
@@ -58,8 +51,8 @@ public class SimpleMap {
         randomDistance = newDistance;
     }
     
-    public void setRandomSize(int newSize) {
-        randomSize = newSize;
+    public void setUniverseStars(int newSize) {
+        universeStars = newSize;
     }
     
     public void setMinDistance(int newMin) {
@@ -73,10 +66,11 @@ public class SimpleMap {
     
     public void printMap(){
         System.out.println("This is da map");
-        for (int x = 0; x < randomSize; x++){
-            for (int y = 0; y < randomSize; y++) {
-                System.out.print("Index:" + starMap[x][y][1] + " ");
-                System.out.print("Distance:" + starMap[x][y][0] + "\t");
+        int i = 0;
+        for (int x = 0; x < universeStars; x++){
+            for (int y = 0; y < universeStars; y++) {
+                System.out.print("(" + x + "," + y + ") ");
+                System.out.print("Dist: " + starMap[x][y] + "\t");
             }
             System.out.println();
         }
