@@ -4,22 +4,26 @@
  * and open the template in the editor.
  */
 package main;
-import java.util.*;
+
+import java.util.ArrayList;
+import java.util.Arrays;
 
 /**
  *
- * @author ZdrytchX
+ * @author tspinks
  */
-public class Crossover {
-
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String[] args) {
-        //DEMO: REMOVE BEFORE FLIGHT >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+public class CrossOverMutation {
+    private final int[] parent1;
+    private final int[] parent2;
+    
+    public CrossOverMutation(int[] parent1, int[] parent2){
+       this.parent1 = parent1;
+       this.parent2 = parent2;
+    }
+    
+    int[][] getCrossoverReults(int[] parent1, int[] parent2){
+          //DEMO: REMOVE BEFORE FLIGHT >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
         //long sample for practical case
-        int DemoChrome1[] = {1,2,4,5,3,8,9,6,16,7,17,18,19,20,14,15,13,11,12,10,1};
-        int DemoChrome2[] = {1,5,12,13,7,6,9,11,16,17,8,4,3,18,19,20,14,2,15,10,1};
 
         //int DemoChrome1[] = {1,2,3,4,5,1};
         //int DemoChrome2[] = {1,3,5,2,4,1};
@@ -37,20 +41,20 @@ public class Crossover {
 
         //SETTINGS
         //Substitute these values as needed ->->->->->->->->->->->->->->->->->->
-        int child1[] =     DemoChrome1;//Import Parent 1 here
-        int[] genePool1 = new int[DemoChrome1.length];
-        System.arraycopy(child1, 0, genePool1, 0, DemoChrome1.length);
+        int child1[] =     parent1;//Import Parent 1 here
+        int[] genePool1 = new int[parent1.length];
+        System.arraycopy(child1, 0, genePool1, 0, parent1.length);
         
-        int child2[] =     DemoChrome2;//Import Parent 2 here
-        int[] genePool2 = new int[DemoChrome2.length];
+        int child2[] =     parent2;//Import Parent 2 here
+        int[] genePool2 = new int[parent2.length];
         System.arraycopy(child2, 0, genePool2, 0, genePool2.length);
             
         //Does not wrap around e.g. swapping gene slot 0 and last slot
-        double swapWidthMax = 0.4;//0.1     Must be < 1.0
-        double swapWidthMin = 0.1;//0.05   Must be <= swapWidthMax
+        double swapWidthMax = 0.2;//0.1     Must be < 1.0
+        double swapWidthMin = 0.005;//0.05   Must be <= swapWidthMax
         
         //Probability of swapping a random gene
-        double mutationThreshold = 0.05;//typical value 0.001 - 0.01
+        double mutationThreshold = 0.01;//typical value 0.001 - 0.01
         
         //Mutation PROBABILITY condition is executed X times per parent/child cycle
         //typical value = 1(?) but doesn't scale with size. Assign it to chrome
@@ -85,6 +89,12 @@ public class Crossover {
         mutateGene(child1, genePool1, mutationThreshold, mutationAttempts, chromeSize - 2);
         System.out.println("\n>Child2 selected for mutation: "+Arrays.toString(child2));
         mutateGene(child2, genePool2, mutationThreshold, mutationAttempts, chromeSize - 2);
+        /*
+        if(child1 == child2){
+            System.out.println("CUNT!");
+            mutateGene(child1, genePool1, 1, 2, chromeSize - 2);
+            mutateGene(child2, genePool2, 1, 2, chromeSize - 2);
+        }*/
         
         //DEMO: REMOVE BEFORE FLIGHT >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
         System.out.println("\nChild1 Before Fix: "+Arrays.toString(child1));
@@ -116,12 +126,15 @@ public class Crossover {
             System.out.println(j);
         }*/
         //DEMO: REMOVE BEFORE FLIGHT <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+        int[][] children = new int[2][child1.length];
+        System.arraycopy(child1, 0, children[0], 0, child1.length);
+        System.arraycopy(child2, 0, children[1], 0, child1.length);
+        
+        return children;
     }
     
-    //works only on adjacent genes e.g. index 2 and 3 but not 2 and 5.
-    public static void swapGenes(int[] chromeA, int[] chromeB, double swapWidthMin, double swapWidthMax, int chromeSize)
-    {
-        //This ensures swapGenes() remains within the array size. 
+    void swapGenes(int[] chromeA, int[] chromeB, double swapWidthMin, double swapWidthMax, int chromeSize){
+                //This ensures swapGenes() remains within the array size. 
         int randomNumChanges;
         randomNumChanges = (int)( chromeSize * (
                 (swapWidthMax - swapWidthMin) * Math.random()  + swapWidthMin ) );
@@ -141,11 +154,9 @@ public class Crossover {
             System.out.println(" "+SwapeeVar + " swapped with " + chromeA[j] + " @ " + j);
         }
     }
-        
-    //changes a single random gene of a random index
-    public static void mutateGene(int[] chrome, int[] genePool, double mutationThreshold, int mutationAttempts, int chromeSize)
-    {
-        //Calculate how many mutations to do based on threshold probability for this cycle
+    
+    void mutateGene(int[] chrome, int[] genePool, double mutationThreshold, int mutationAttempts, int chromeSize){
+                //Calculate how many mutations to do based on threshold probability for this cycle
         int numMutations = 0;
         for(int i = 0; i < mutationAttempts; i++)
             if( Math.random() < mutationThreshold)
@@ -165,11 +176,7 @@ public class Crossover {
         }
     }
     
-    //Finds duplicate genes and fixes them in a single chromosome
-    //chromeSize has last star subtracted
-    //genesAvail is the parent chromosome
-    public static void checkGenes(int[] chrome, int[] genesAvail, int chromeSize)
-    {
+    void checkGenes(int[] chrome, int[] genesAvail, int chromeSize){
         int[] duplicatesCheck = new int[chromeSize];
         /*
         int[] tempChrome = new int[chromeSize];
@@ -181,8 +188,7 @@ public class Crossover {
             tempGeneBank[i - 1] = genesAvail[i];
         }*/
             
-    System.out.println("parent gene:");
-    System.out.println(Arrays.toString(genesAvail));
+    System.out.println("parent gene: "+Arrays.toString(genesAvail));
     
     //Counts duplicate Genes in a chromosome
         for(int i = 0;i < chromeSize; i++)
@@ -248,4 +254,5 @@ public class Crossover {
             }
         }
     }
+    
 }

@@ -5,6 +5,7 @@
  */
 package main;
 import java.util.*;
+import javax.swing.SwingUtilities;
 /**
  *
  * @author tspinks
@@ -19,7 +20,11 @@ public class GeneticAlgorithm {
         int[] chromosome = new int[0];
         int[][] starMap = new int[0][0];
         ArrayList<Integer> allFitness = new ArrayList<>(); 
-        int[][] allChomosomes = new int[][]{};
+        int[][] multipleChromsomes = new int[][]{};
+        
+        ArrayList<Integer> maxFitnessValue = new ArrayList<>();
+        ArrayList<Double> averageFitnessValue = new ArrayList<>();
+       
         
         System.out.println("Welcome to Star Traveller\n\n");
         
@@ -45,19 +50,76 @@ public class GeneticAlgorithm {
         
         //generate chromosomes
         
-
-        ChromosomePopulation newPopulation = new ChromosomePopulation(populationSize, allChomosomes, chromosome);
+        
+        ChromosomePopulation newPopulation = new ChromosomePopulation(populationSize, multipleChromsomes, chromosome);
        
         int currPopulationSize = newPopulation.getPopulationSize();
+        
+      
+        //do shit for every iteration
+        for(int opaf=0;opaf<100;opaf++){
+            System.out.println("\n=========================\nA new world!\n=========================\n");
+            multipleChromsomes = newPopulation.getChromosomes(starMap, curruniverseStars, currPopulationSize);
+            allFitness = newPopulation.getFitness(starMap, multipleChromsomes);
+            int totalFitness = newPopulation.getTotalPopfitness(allFitness);
+            ArrayList<Double> relativeFitness = newPopulation.getRelativeFitness(allFitness,totalFitness);
 
-        allChomosomes = newPopulation.getChromosomes(starMap, curruniverseStars, currPopulationSize);
-        allFitness = newPopulation.getFitness(starMap, allChomosomes);
-        int totalFitness = newPopulation.getTotalPopfitness(allFitness);
-        ArrayList<Double> relativeFitness = newPopulation.getRelativeFitness(allFitness,totalFitness);
+            System.out.println("This is the total fitness of all Chromosome population: " + totalFitness);
+            System.out.println("This is the all relative fitnesses per the chromsomes: " + relativeFitness);
+            
+                    //GRAPHS 4 ALL
+            //temporary interation value for X-axis
+            maxFitnessValue.add(newPopulation.getMax(allFitness));
+            averageFitnessValue.add(newPopulation.getAverage(totalFitness, multipleChromsomes.length));
+          
+
+            //while loop
+            int[] parentPairs;
+            int[][] multipleNewChromsomes = new int[populationSize][curruniverseStars];
+
+            for(int l = 0; l<currPopulationSize;l++){
+                System.out.println("Chromosome #"+l+": is     "+Arrays.toString(multipleChromsomes[l]));
+            }
+
+
+            for(int i = 0; i < currPopulationSize; i +=2){
+
+                TournamentSelection newSelection = new TournamentSelection(multipleChromsomes, totalFitness, relativeFitness);
+
+                parentPairs = newSelection.getParentPairs(multipleChromsomes,totalFitness,relativeFitness,populationSize);
+
+                int[] parent1 = multipleChromsomes[parentPairs[0]];
+                int[] parent2 = multipleChromsomes[parentPairs[1]];
+
+                CrossOverMutation newCrossoverMutation = new CrossOverMutation(parent1,parent2);
+
+                int[][] children;
+
+                children = newCrossoverMutation.getCrossoverReults(parent1, parent2);
+
+                multipleNewChromsomes[i] = children[0];
+                if (currPopulationSize % 2 == 0 || ( currPopulationSize % 2 == 1 && i+1 < currPopulationSize ) ){
+                    multipleNewChromsomes[i+1] = children[1];
+                }
+
+                System.out.println(Arrays.toString(children[0])+"\n"+Arrays.toString(children[1]));
+            }
+
+            //copy back to original array
+            for(int i = 0;i< populationSize;i++){
+                System.arraycopy(multipleNewChromsomes[i],0,multipleChromsomes[i],0,curruniverseStars);
+            }
+
+
+            for(int l = 0; l<currPopulationSize;l++){
+                System.out.println("Chromosome #"+l+": is now "+Arrays.toString(multipleChromsomes[l]));
+            }
+        }
         
-        System.out.println("This is the total fitness of all Chromosome population: " + totalFitness);
-        System.out.println("This is the all relative fitnesses per the chromsomes: " + relativeFitness);
-        
+        SwingUtilities.invokeLater(() -> {
+                NuGraph ex = new NuGraph(maxFitnessValue, averageFitnessValue);
+                ex.setVisible(true);
+            });
         //send to selection sort
         
         /*

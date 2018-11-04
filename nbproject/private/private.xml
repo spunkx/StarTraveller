@@ -3,11 +3,12 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="1"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/home/iq/Documents/UNI/IntelligentSystems/GeneticAlgorithm/GeneticAlgorithm/src/main/GeneticAlgorithm.java</file>
-            <file>file:/home/iq/Documents/UNI/IntelligentSystems/GeneticAlgorithm/GeneticAlgorithm/src/main/ChromosomePopulation.java</file>
-            <file>file:/home/iq/Documents/UNI/IntelligentSystems/GeneticAlgorithm/GeneticAlgorithm/src/main/SimpleMap.java</file>
-            <file>file:/home/iq/Documents/UNI/IntelligentSystems/GeneticAlgorithm/GeneticAlgorithm/src/main/Crossover.java</file>
-            <file>file:/home/iq/Documents/UNI/IntelligentSystems/GeneticAlgorithm/GeneticAlgorithm/src/main/Node.java</file>
+            <file>file:/C:/Users/tspinks/Desktop/StarTraveller-master/src/main/TournamentSelection.java</file>
+            <file>file:/C:/Users/tspinks/Desktop/StarTraveller-master/src/main/SimpleMap.java</file>
+            <file>file:/C:/Users/tspinks/Desktop/StarTraveller-master/src/main/ChromosomePopulation.java</file>
+            <file>file:/C:/Users/tspinks/Desktop/StarTraveller-master/src/main/NuGraph.java</file>
+            <file>file:/C:/Users/tspinks/Desktop/StarTraveller-master/src/main/CrossOverMutation.java</file>
+            <file>file:/C:/Users/tspinks/Desktop/StarTraveller-master/src/main/GeneticAlgorithm.java</file>
         </group>
     </open-files>
 </project-private>

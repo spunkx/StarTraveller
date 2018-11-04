@@ -116,7 +116,7 @@ public class ChromosomePopulation {
     
     public ArrayList<Double> getRelativeFitness(ArrayList<Integer> allFitness, int totalFitness){
         ArrayList<Double> allChromosomeRelativeFitness = new ArrayList<>();
-        double relFit = 0;
+        double relFit;
         for(int i = 0; i < allFitness.size(); i++){
             double currFitness = allFitness.get(i);
             double dblTotalFitness = totalFitness;
@@ -130,19 +130,7 @@ public class ChromosomePopulation {
         
         return allChromosomeRelativeFitness;
     }
-    /*
-    public int[][] returnToChromey(int[][] starMap, ArrayList<Integer> allChromosomeRelativeFitness, int[][] allChomosomes){
-        
-        for(int x = 0; x < starMap.length; x++){
-            for(int y = 0; y < starMap.length-1; y++){
-                multipleChromsomes;
-            }
-        }
-        
-        
-        
-        return chromeyAgain;
-    }*/
+
     
     
     /*
@@ -150,7 +138,21 @@ public class ChromosomePopulation {
         
     }*/
     
-   
+      public double getAverage(int totalFitness, int NumberoOfChomosomes){
+
+       double average = totalFitness / NumberoOfChomosomes;
+
+       return average;
+
+	}
+
+	public int getMax(ArrayList<Integer> allFitness){
+
+       int max = Collections.max(allFitness);
+
+       return max;
+
+	}
     
     public void setMutlipleChromosomes(int[][] newmultipleChromsomes){
         multipleChromsomes = newmultipleChromsomes;
