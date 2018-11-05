@@ -78,7 +78,7 @@ public class NuGraph extends JFrame {
 
         JFreeChart chart = ChartFactory.createXYLineChart(
                 "Chromosome Performance", 
-                "Time ", 
+                "Generations", 
                 "Chromosome Fitness Value", 
                 dataset, 
                 PlotOrientation.VERTICAL,
