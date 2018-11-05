@@ -12,7 +12,7 @@ public class TournamentSelection {
     
     public int[] getParentPairs(int[][] multipleChromsomes, int totalFitness, ArrayList<Double> relativeFitness, int populationSize){
         int random;
-        int tournamentSize = (int)(multipleChromsomes.length * 0.2) + 2;
+        int tournamentSize = (int)(multipleChromsomes.length * 0.1) + 2;
         double theChosenOne;
         double tournament[] = new double[tournamentSize];
         double highest = 0;
