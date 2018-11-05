@@ -49,23 +49,15 @@ public class NuGraph extends JFrame {
 
     private XYDataset createDataset(ArrayList<Integer> maxFit, ArrayList<Double> averageFit) {
 
-        //x = time
-        //y = value
         XYSeries max = new XYSeries("Max Fitness");
         XYSeries avg = new XYSeries("Average Fitness");
         
+        //adds new elements to the graph
         for(int i = 0; i < maxFit.size(); i++){
             max.add(i, maxFit.get(i));
             avg.add(i, averageFit.get(i));
         }
         
-        /*
-        series.add(18, 567);
-        series.add(20, 612);
-        series.add(25, 800);
-        series.add(30, 980);
-        series.add(40, 1410);
-        series.add(50, 2350);*/
 
         XYSeriesCollection dataset = new XYSeriesCollection();
         dataset.addSeries(max);
@@ -78,7 +70,7 @@ public class NuGraph extends JFrame {
 
         JFreeChart chart = ChartFactory.createXYLineChart(
                 "Chromosome Performance", 
-                "Generations", 
+                "Time ", 
                 "Chromosome Fitness Value", 
                 dataset, 
                 PlotOrientation.VERTICAL,

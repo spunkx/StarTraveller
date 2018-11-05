@@ -6,10 +6,6 @@
 package main;
 import java.util.*;
 import javax.swing.SwingUtilities;
-/**
- *
- * @author tspinks
- */
 public class GeneticAlgorithm {
 
     /**
@@ -49,10 +45,10 @@ public class GeneticAlgorithm {
        
         int curruniverseStars = newStarMap.getUniverseStars();
       
-        
+        //create a new star map
         starMap = newStarMap.getStarMap();
         newStarMap.printMap();
-        
+        System.out.println("--------------------------------------------------------------------");
         //generate chromosomes
         ChromosomePopulation newPopulation = new ChromosomePopulation(populationSize, multipleChromsomes, chromosome);
        
@@ -63,31 +59,31 @@ public class GeneticAlgorithm {
       
         //iterate for use specified iterations
         for(int m=0; m < iterationsGenAlgo; m++){
+            
+            for(int l = 0; l<currPopulationSize;l++){
+                System.out.println("Chromosome #"+l+": Before Cross over Mutation "+Arrays.toString(multipleChromsomes[l]));
+            }
+ 
             allFitness = newPopulation.getFitness(starMap, multipleChromsomes);
             int totalFitness = newPopulation.getTotalPopfitness(allFitness);
             ArrayList<Double> relativeFitness = newPopulation.getRelativeFitness(allFitness,totalFitness);
 
-            System.out.println("Got the total fitness!" + totalFitness);
+            System.out.println("Got the total fitness! " + totalFitness);
             System.out.println("All Relative Fitneses!" + relativeFitness);
             
-                    //GRAPHS 4 ALL
             //temporary interation value for X-axis
             maxFitnessValue.add(newPopulation.getMax(allFitness));
             averageFitnessValue.add(newPopulation.getAverage(totalFitness, multipleChromsomes.length)); 
-          
-
-            //while loop
+            
             int[] parentPairs;
             int[][] multipleNewChromsomes = new int[populationSize][curruniverseStars];
-     
             /*
             for(int l = 0; l<currPopulationSize;l++){
                 System.out.println("Chromosome #"+l+": is     "+Arrays.toString(multipleChromsomes[l]));
-            }*/
-
+            }*/     
             for(int i = 0; i < currPopulationSize; i +=2){
                 //do the follow for the length of curr population Size 
-                TournamentSelection newSelection = new TournamentSelection(multipleChromsomes, totalFitness, relativeFitness);
+                TournamentSelection newSelection = new TournamentSelection();
 
                 parentPairs = newSelection.getParentPairs(multipleChromsomes,totalFitness,relativeFitness,populationSize);
                 
@@ -99,10 +95,8 @@ public class GeneticAlgorithm {
                 CrossOverMutation newCrossoverMutation = new CrossOverMutation(parent1,parent2);
 
                 int[][] children;
-
                 children = newCrossoverMutation.getCrossoverReults(parent1, parent2);
                 
-               
                 multipleNewChromsomes[i] = children[0];
                 //modulo for when the current population size is even or odd
                 if (currPopulationSize % 2 == 0 || ( currPopulationSize % 2 == 1 && i+1 < currPopulationSize ) ){
@@ -117,10 +111,11 @@ public class GeneticAlgorithm {
                 System.arraycopy(multipleNewChromsomes[i],0,multipleChromsomes[i],0,curruniverseStars);
             }
 
-            /*
+            
             for(int l = 0; l<currPopulationSize;l++){
-                System.out.println("Chromosome #"+l+": is now "+Arrays.toString(multipleChromsomes[l]));
-            }*/
+                System.out.println("Chromosome #"+l+": After Cross over Mutation "+Arrays.toString(multipleChromsomes[l]));
+            }
+            System.out.println("--------------------------------------------------------------------");
         }
         
         SwingUtilities.invokeLater(() -> {

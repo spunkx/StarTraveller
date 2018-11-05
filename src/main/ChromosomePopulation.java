@@ -7,14 +7,11 @@ package main;
 
 import java.util.*;
 
-/**
- *
- * @author tspinks
- */
 public class ChromosomePopulation {
     private int populationSize;
     private int[][] multipleChromsomes = new int[][]{};
     
+    //constuctor
     public ChromosomePopulation(int newpopulationSize, int[][] newmultipleChromsomes, int[] newChromosomes){
         this.populationSize = newpopulationSize;
         this.multipleChromsomes = newmultipleChromsomes;
@@ -31,7 +28,7 @@ public class ChromosomePopulation {
         multipleChromsomes = new int [populationSize][universeStars+1];
         
         for(int j = 0; j < populationSize; j++){
-
+            
             multipleChromsomes[j][0] = 0;
             multipleChromsomes[j][universeStars] = 0;
             
@@ -52,24 +49,23 @@ public class ChromosomePopulation {
            }
            
             //this is on one line
+            /*
             for(int i = 0;i<starMap.length;i++)
                 System.out.println(multipleChromsomes[j][i] + " this is a test " + starMap[multipleChromsomes[j][i]][multipleChromsomes[j][i+1]]);
             System.out.println("\n");
-            //this weird garbage:
-            //starMap[chromeList[j][i]][chromeList[j][i+1]]
-            //prints the distance between two genes of a chromosome
-            //it just looks weird because we are referring it by the chromeList array
+            */
+            //starMap[chromeList[j][i]][chromeList[j][i+1]] prints the distance between two genes of a chromosome
             
         }
 
-        System.out.println("end of chrome generation\n");
-        //fresh print loop
+        //System.out.println("end of chrome generation\n");
+        /*fresh print loop
         for(int j = 0; j < populationSize; j++){
             for (int i = 0; i < universeStars+1; i++){
                 System.out.println(multipleChromsomes[j][i]);
             }
                 System.out.println("\n");
-        }
+        }*/
         
         return multipleChromsomes;
     }
@@ -96,10 +92,10 @@ public class ChromosomePopulation {
                 //System.out.println("Fitness values: " + fitnessValue);
             }
             allFitness.add(fitnessValue);
-            System.out.println("All distances of this chrosomome: " + tempFit);
+            //System.out.println("All distances of this chrosomome: " + tempFit);
             
         }
-        System.out.println("Distance totals per chromosome: " + allFitness);
+        //System.out.println("Distance totals per chromosome: " + allFitness);
         
         return allFitness;
     }
@@ -115,12 +111,14 @@ public class ChromosomePopulation {
     }
     
     public ArrayList<Double> getRelativeFitness(ArrayList<Integer> allFitness, int totalFitness){
+        //gets the relative fitness, relative fitness is mostly used for roulette wheel selection
         ArrayList<Double> allChromosomeRelativeFitness = new ArrayList<>();
         double relFit;
         for(int i = 0; i < allFitness.size(); i++){
             double currFitness = allFitness.get(i);
             double dblTotalFitness = totalFitness;
             
+            //(dblTotalFitness-currFitness)/dblTotalFitness converts it to a higher value is more fit
             relFit = (dblTotalFitness-currFitness)/dblTotalFitness;
             allChromosomeRelativeFitness.add(relFit);
             
@@ -130,29 +128,17 @@ public class ChromosomePopulation {
         
         return allChromosomeRelativeFitness;
     }
-
     
-    
-    /*
-    public int getStats(){
-        
-    }*/
-    
-      public double getAverage(int totalFitness, int NumberoOfChomosomes){
-
+    public double getAverage(int totalFitness, int NumberoOfChomosomes){
        double average = totalFitness / NumberoOfChomosomes;
-
        return average;
+    }
 
-	}
-
-	public int getMax(ArrayList<Integer> allFitness){
-
+    public int getMax(ArrayList<Integer> allFitness){
        int max = Collections.max(allFitness);
-
        return max;
 
-	}
+    }
     
     public void setMutlipleChromosomes(int[][] newmultipleChromsomes){
         multipleChromsomes = newmultipleChromsomes;

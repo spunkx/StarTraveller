@@ -18,18 +18,24 @@ public class SimpleMap {
     }
     
     public int[][] getStarMap(){
+        //creates a star map
+        //set the size of the 2d array to user specified value
         starMap = new int [universeStars][universeStars];
+        //create a new random
         randomDistance = new Random();
         for(int x=0; x < universeStars; x++){
             for(int y=0; y < universeStars; y++){
                 
                 if(x==y){
+                    //set the diagonal 0s accross the star map for when a x1=y1
                     starMap[x][y]=0;
                     
                 }else if(y < x) {
+                    //remove repeating
                     starMap[x][y] = starMap[y][x];
 
                 }else{
+                    //Add the random values to the star map
                     starMap[x][y] = randomDistance.nextInt(maxDistance) + minDistance;   
                 }
 
@@ -56,7 +62,6 @@ public class SimpleMap {
     }
     
     public void setMinDistance(int newMin) {
-        //if(newMin == 1) 
         minDistance = newMin;
     }
     

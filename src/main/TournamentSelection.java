@@ -5,19 +5,9 @@
  */
 package main;
 import java.util.*;
-/**
- * Romil kajria: 10334905
- * @author tspinks
- */
 public class TournamentSelection {
-    private int[][] multipleChromsomes = new int[][]{};
-    private double totalFitness;
-    private ArrayList<Double> relativeFitness;
     
-    public TournamentSelection(int[][] currMultipleChromsomes, int currTotalFitness, ArrayList<Double> currRelativeFitness){
-        this.multipleChromsomes = currMultipleChromsomes;
-        this.totalFitness = currTotalFitness;
-        this.relativeFitness = currRelativeFitness;
+    public TournamentSelection(){
     }
     
     public int[] getParentPairs(int[][] multipleChromsomes, int totalFitness, ArrayList<Double> relativeFitness, int populationSize){
@@ -29,7 +19,7 @@ public class TournamentSelection {
         ArrayList<Double> newPopulation = new ArrayList<>();
         int[] parentPairs = new int[2];
         
-        System.out.println("\n");
+        //System.out.println("\n");
         for(int i = 0; i < 2; i++){
             for(int j = 0; j < tournamentSize; j++){
                 random = (int)(Math.random()* populationSize);
@@ -45,10 +35,10 @@ public class TournamentSelection {
                 }
             }
         
-        System.out.println("\nhighest" + " in generation:"+(i+1) + " " + highest + " below is the population size");
+        //System.out.println("\nhighest" + " in generation:"+(i+1) + " " + highest + " below is the population size");
         //System.out.println(highest);// prints hightest in the current generation
         newPopulation.add(highest);
-        System.out.println(newPopulation.size());
+        //System.out.println(newPopulation.size());
         // adds the highest into the new poputation array
         
         }
@@ -65,15 +55,5 @@ public class TournamentSelection {
         
         return parentPairs;
     }
-    
-    
-    public void setMultipleChrosomomes(int[][] currMultipleChromsomes){
-        multipleChromsomes = currMultipleChromsomes;
-    }
-    public void setTotalFitness(int currTotalFitness){
-        totalFitness = currTotalFitness;
-    }
-    public void setRelativeFitness(ArrayList<Double> currRelativeFitness){
-        relativeFitness = currRelativeFitness;
-    }
+
 }
