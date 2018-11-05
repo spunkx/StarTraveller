@@ -70,8 +70,8 @@ public class NuGraph extends JFrame {
         XYSeriesCollection dataset = new XYSeriesCollection();
         dataset.addSeries(best);
         dataset.addSeries(bestGlobal);
-        dataset.addSeries(worst);
         dataset.addSeries(avg);
+        dataset.addSeries(worst);
 
         return dataset;
     }
