@@ -51,10 +51,10 @@ public class CrossOverMutation {
             
         //Does not wrap around e.g. swapping gene slot 0 and last slot
         double swapWidthMax = 0.2;//0.1     Must be < 1.0
-        double swapWidthMin = 0.005;//0.05   Must be <= swapWidthMax
+        double swapWidthMin = 0.05;//0.05   Must be <= swapWidthMax
         
         //Probability of swapping a random gene
-        double mutationThreshold = 0.01;//typical value 0.001 - 0.01
+        double mutationThreshold = 0.001;//typical value 0.001 - 0.01
         
         //Mutation PROBABILITY condition is executed X times per parent/child cycle
         //typical value = 1(?) but doesn't scale with size. Assign it to chrome
