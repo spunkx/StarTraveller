@@ -138,21 +138,29 @@ public class ChromosomePopulation {
         
     }*/
     
-      public double getAverage(int totalFitness, int NumberoOfChomosomes){
+    public double getAverage(int totalFitness, int NumberoOfChomosomes){
 
-       double average = totalFitness / NumberoOfChomosomes;
+        double average = totalFitness / NumberoOfChomosomes;
 
-       return average;
+        return average;
 
-	}
+    }
 
-	public int getMax(ArrayList<Integer> allFitness){
+    public int getBest(ArrayList<Integer> allFitness){
 
-       int max = Collections.max(allFitness);
+        int min = Collections.min(allFitness);
 
-       return max;
+        return min;
 
-	}
+    }
+    
+    public int getWorst(ArrayList<Integer> allFitness){
+
+        int max = Collections.max(allFitness);
+
+        return max;
+
+    }
     
     public void setMutlipleChromosomes(int[][] newmultipleChromsomes){
         multipleChromsomes = newmultipleChromsomes;

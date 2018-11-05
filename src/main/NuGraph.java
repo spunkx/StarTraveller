@@ -27,14 +27,14 @@ import org.jfree.data.xy.XYSeriesCollection;
 
 public class NuGraph extends JFrame {
 
-    public NuGraph(ArrayList<Integer> newMaxFit, ArrayList<Double> newAverageFit) {
+    public NuGraph(ArrayList<Integer> newBestFit, ArrayList<Integer> newWorstFit, ArrayList<Double> newAverageFit) {
 
-        initUI(newMaxFit,newAverageFit);
+        initUI(newBestFit,newWorstFit,newAverageFit);
     }
 
-    private void initUI(ArrayList<Integer> maxFit, ArrayList<Double> averageFit) {
+    private void initUI(ArrayList<Integer> bestFit, ArrayList<Integer> worstFit, ArrayList<Double> averageFit) {
 
-        XYDataset dataset = createDataset(maxFit, averageFit);
+        XYDataset dataset = createDataset(bestFit, worstFit, averageFit);
         JFreeChart chart = createChart(dataset);
         ChartPanel chartPanel = new ChartPanel(chart);
         chartPanel.setBorder(BorderFactory.createEmptyBorder(15, 15, 15, 15));
@@ -47,16 +47,24 @@ public class NuGraph extends JFrame {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     }
 
-    private XYDataset createDataset(ArrayList<Integer> maxFit, ArrayList<Double> averageFit) {
+    private XYDataset createDataset(ArrayList<Integer> bestFit, ArrayList<Integer> worstFit, ArrayList<Double> averageFit) {
 
         //x = time
         //y = value
-        XYSeries max = new XYSeries("Max Fitness");
+        XYSeries best = new XYSeries("Best Fitness");
+        XYSeries worst = new XYSeries("Worst Fitness");
         XYSeries avg = new XYSeries("Average Fitness");
+        XYSeries bestGlobal = new XYSeries("Best Global Fitness");
         
-        for(int i = 0; i < maxFit.size(); i++){
-            max.add(i, maxFit.get(i));
+        int minValue = bestFit.get(0);
+        
+        for(int i = 0; i < bestFit.size(); i++){
+            best.add(i, bestFit.get(i));
+            worst.add(i, worstFit.get(i));
             avg.add(i, averageFit.get(i));
+            
+            if(minValue > bestFit.get(i)) minValue = bestFit.get(i);
+            bestGlobal.add(i, minValue);
         }
         
         /*
@@ -68,7 +76,9 @@ public class NuGraph extends JFrame {
         series.add(50, 2350);*/
 
         XYSeriesCollection dataset = new XYSeriesCollection();
-        dataset.addSeries(max);
+        dataset.addSeries(best);
+        dataset.addSeries(bestGlobal);
+        dataset.addSeries(worst);
         dataset.addSeries(avg);
 
         return dataset;

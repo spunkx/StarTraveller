@@ -22,7 +22,8 @@ public class GeneticAlgorithm {
         int[][] starMap = new int[0][0];
         ArrayList<Integer> allFitness; 
         int[][] multipleChromsomes = new int[][]{};      
-        ArrayList<Integer> maxFitnessValue = new ArrayList<>();
+        ArrayList<Integer> bestFitnessValue = new ArrayList<>();
+        ArrayList<Integer> worstFitnessValue = new ArrayList<>();
         ArrayList<Double> averageFitnessValue = new ArrayList<>();
         
         System.out.println("Welcome to Star Traveller\n\n");
@@ -72,7 +73,8 @@ public class GeneticAlgorithm {
             
                     //GRAPHS 4 ALL
             //temporary interation value for X-axis
-            maxFitnessValue.add(newPopulation.getMax(allFitness));
+            bestFitnessValue.add(newPopulation.getBest(allFitness));
+            worstFitnessValue.add(newPopulation.getWorst(allFitness));
             averageFitnessValue.add(newPopulation.getAverage(totalFitness, multipleChromsomes.length)); 
           
 
@@ -124,7 +126,7 @@ public class GeneticAlgorithm {
         }
         
         SwingUtilities.invokeLater(() -> {
-                NuGraph ex = new NuGraph(maxFitnessValue, averageFitnessValue);
+                NuGraph ex = new NuGraph(bestFitnessValue, worstFitnessValue, averageFitnessValue);
                 ex.setVisible(true);
             });
         
