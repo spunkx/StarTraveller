@@ -22,20 +22,19 @@ public class TournamentSelection {
     
     public int[] getParentPairs(int[][] multipleChromsomes, int totalFitness, ArrayList<Double> relativeFitness, int populationSize){
         int random;
+        int tournamentSize = (int)(multipleChromsomes.length * 0.2) + 2;
         double theChosenOne;
-        double tournament[] = new double[3];
+        double tournament[] = new double[tournamentSize];
         double highest = 0;
         ArrayList<Double> newPopulation = new ArrayList<>();
         int[] parentPairs = new int[2];
         
         System.out.println("\n");
         for(int i = 0; i < 2; i++){
-            for(int j = 0; j <= 2; j++){
+            for(int j = 0; j < tournamentSize; j++){
                 random = (int)(Math.random()* populationSize);
                 theChosenOne = relativeFitness.get(random);
                 tournament[j] = theChosenOne;
-                System.out.println("\nthe chosen one in generation:"+(i+1));
-                System.out.println(theChosenOne); // prints out the fitness chosen 
             }
 
             //grab max value
