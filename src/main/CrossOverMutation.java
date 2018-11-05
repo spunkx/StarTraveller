@@ -33,10 +33,10 @@ public class CrossOverMutation {
             
         //Does not wrap around e.g. swapping gene slot 0 and last slot
         double swapWidthMax = 0.2;//0.1     Must be < 1.0
-        double swapWidthMin = 0.005;//0.05   Must be <= swapWidthMax
+        double swapWidthMin = 0.05;//0.05   Must be <= swapWidthMax
         
         //Probability of swapping a random gene
-        double mutationThreshold = 0.01;//typical value 0.001 - 0.01
+        double mutationThreshold = 0.001;//typical value 0.001 - 0.01
         
         //Mutation PROBABILITY condition is executed X times per parent/child cycle
         //typical value = 1(?) but doesn't scale with size. Assign it to chrome
@@ -46,7 +46,7 @@ public class CrossOverMutation {
         //int mutationAttempts = 1;//per-cycle single-gene probability
         
         int numSwaps = 1;//Minimum swaps per parent/child cycle
-        double extraSwaps = 1.5;//Random number of extra swaps per cycle, >1.0 to do anything due to rounding
+        double extraSwaps = 1.05;//Random number of extra swaps per cycle, >1.0 to do anything due to rounding
                 //e.g. value 1.5 = 33.3% chance of adding 1 extra swap
                 //can act as extra mutation
         numSwaps += (int)(extraSwaps * Math.random() );
