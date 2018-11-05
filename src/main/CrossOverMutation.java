@@ -8,10 +8,6 @@ package main;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-/**
- *
- * @author tspinks
- */
 public class CrossOverMutation {
     private final int[] parent1;
     private final int[] parent2;
@@ -25,20 +21,6 @@ public class CrossOverMutation {
           //DEMO: REMOVE BEFORE FLIGHT >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
         //long sample for practical case
 
-        //int DemoChrome1[] = {1,2,3,4,5,1};
-        //int DemoChrome2[] = {1,3,5,2,4,1};
-        //small sample for visibility, you need to modify SETTINGS to accomadate
-        /*
-        int DemoChrome1[] = {1,2,4,5,3};
-        int DemoChrome2[] = {3,2,5,1,4};
-        */
-        //DEMO: REMOVE BEFORE FLIGHT <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
-        
-        
-                ///////==============///////
-                ///////MAIN CROSSOVER///////
-                ///////==============///////
-
         //SETTINGS
         //Substitute these values as needed ->->->->->->->->->->->->->->->->->->
         int child1[] =     parent1;//Import Parent 1 here
@@ -51,10 +33,10 @@ public class CrossOverMutation {
             
         //Does not wrap around e.g. swapping gene slot 0 and last slot
         double swapWidthMax = 0.2;//0.1     Must be < 1.0
-        double swapWidthMin = 0.05;//0.05   Must be <= swapWidthMax
+        double swapWidthMin = 0.005;//0.05   Must be <= swapWidthMax
         
         //Probability of swapping a random gene
-        double mutationThreshold = 0.001;//typical value 0.001 - 0.01
+        double mutationThreshold = 0.01;//typical value 0.001 - 0.01
         
         //Mutation PROBABILITY condition is executed X times per parent/child cycle
         //typical value = 1(?) but doesn't scale with size. Assign it to chrome
@@ -76,8 +58,8 @@ public class CrossOverMutation {
         int chromeSize = genePool1.length;//cut down on processing time
         
         //print imported chromosomes
-        System.out.println("Parent 1 Imported: " + Arrays.toString(child1));
-        System.out.println("Parent 2 Imported: " + Arrays.toString(child2));
+        //System.out.println("Parent 1 Imported: " + Arrays.toString(child1));
+        //System.out.println("Parent 2 Imported: " + Arrays.toString(child2));
         //Swap function only swaps once, repeat times for multiple segment swaps in different locations
         for(int i=0; i < numSwaps; i++)
         {
@@ -85,47 +67,30 @@ public class CrossOverMutation {
         }
         
         //Random Mutation
-        System.out.println("\n>Child1 selected for mutation: "+Arrays.toString(child1));
+        //System.out.println("\n>Child1 selected for mutation: "+Arrays.toString(child1));
         mutateGene(child1, genePool1, mutationThreshold, mutationAttempts, chromeSize - 2);
-        System.out.println("\n>Child2 selected for mutation: "+Arrays.toString(child2));
+       //System.out.println("\n>Child2 selected for mutation: "+Arrays.toString(child2));
         mutateGene(child2, genePool2, mutationThreshold, mutationAttempts, chromeSize - 2);
         /*
         if(child1 == child2){
-            System.out.println("CUNT!");
             mutateGene(child1, genePool1, 1, 2, chromeSize - 2);
             mutateGene(child2, genePool2, 1, 2, chromeSize - 2);
         }*/
         
-        //DEMO: REMOVE BEFORE FLIGHT >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-        System.out.println("\nChild1 Before Fix: "+Arrays.toString(child1));
-        System.out.println("\nChild2 Before Fix: "+Arrays.toString(child2));
-        //DEMO: REMOVE BEFORE FLIGHT <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
-        
         //checkGenes fixes duplicate genes
         //This may also be used to fix other chromosomes in contexts as well
         checkGenes(child1, genePool1, chromeSize - 2);
-        System.out.println("Child1 after fix: "+Arrays.toString(child1));
+        //System.out.println("Child1 after fix: "+Arrays.toString(child1));
         
-        System.out.println("\n>Child2 after mutation: "+Arrays.toString(child2));
+        //System.out.println("\n>Child2 after mutation: "+Arrays.toString(child2));
         /*
-        System.out.println(Arrays.toString(child2));
-        for (int i=0; i < child2.length; i++)
-        {
-            int j = child2[i];
-            System.out.println(j);
-        }*/
+        
+        */
         checkGenes(child2, genePool2, chromeSize - 2);
         
         
-        //DEMO: REMOVE BEFORE FLIGHT >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-        System.out.println("Child2 after fix: "+Arrays.toString(child2));
-        /*
-        for (int i=0; i < child2.length; i++)
-        {
-            int j = child2[i];
-            System.out.println(j);
-        }*/
-        //DEMO: REMOVE BEFORE FLIGHT <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+        //System.out.println("Child2 after fix: "+Arrays.toString(child2));
+        
         int[][] children = new int[2][child1.length];
         System.arraycopy(child1, 0, children[0], 0, child1.length);
         System.arraycopy(child2, 0, children[1], 0, child1.length);
@@ -141,8 +106,8 @@ public class CrossOverMutation {
         //Remainder is used to randomly pick an index to swap
         int randomIndex = (int)( Math.random() * (chromeSize - randomNumChanges ) ) + 1;
         
-        //DEMO: REMOVE BEFORE FLIGHT - Indicator for multiple swaps
-        System.out.println("Swap @ index "+randomIndex+", "+randomNumChanges+" changes:");
+        //Indicator for multiple swaps
+       // System.out.println("Swap @ index "+randomIndex+", "+randomNumChanges+" changes:");
         
         //ignore first gene
         for(int i = 0; i < randomNumChanges; i++)
@@ -151,7 +116,7 @@ public class CrossOverMutation {
             int SwapeeVar = chromeA[j];
             chromeA[j] = chromeB[j];
             chromeB[j] = SwapeeVar;
-            System.out.println(" "+SwapeeVar + " swapped with " + chromeA[j] + " @ " + j);
+            //System.out.println(" "+SwapeeVar + " swapped with " + chromeA[j] + " @ " + j);
         }
     }
     
@@ -167,18 +132,16 @@ public class CrossOverMutation {
         //ignore first gene
         for(int i = 0; i < numMutations; i++)
         {
-            //weird +/- shit avoids first/last star problem, assuming first star
-            //is always 0
             int randomIndex = (int)( Math.random() * (chromeSize) ) + 1;
             int randomGene = (int)( Math.random() * (chromeSize) ) + 1;
             chrome[randomIndex] = genePool[randomGene];
-            System.out.println("MUTATED @ Index "+randomIndex +" giving "+ genePool[randomGene]);//DEMO: REMOVE BEFORE FLIGHT
+            //System.out.println("MUTATED @ Index "+randomIndex +" giving "+ genePool[randomGene]);//DEMO: REMOVE BEFORE FLIGHT
         }
     }
     
     void checkGenes(int[] chrome, int[] genesAvail, int chromeSize){
         int[] duplicatesCheck = new int[chromeSize];
-        /*
+        /* test code
         int[] tempChrome = new int[chromeSize];
         int[] tempGeneBank = new int[chromeSize];
         //Snip arrays to make them easier to deal with
@@ -188,7 +151,7 @@ public class CrossOverMutation {
             tempGeneBank[i - 1] = genesAvail[i];
         }*/
             
-    System.out.println("parent gene: "+Arrays.toString(genesAvail));
+    //System.out.println("parent gene: "+Arrays.toString(genesAvail));
     
     //Counts duplicate Genes in a chromosome
         for(int i = 0;i < chromeSize; i++)
@@ -211,8 +174,8 @@ public class CrossOverMutation {
             duplicatesCheck[i] = count;
         }
         
-        System.out.println("duplicatesCheck list:");
-        System.out.println(Arrays.toString(duplicatesCheck));
+        //System.out.println("duplicatesCheck list:");
+        //System.out.println(Arrays.toString(duplicatesCheck));
         
         //missingGene list is flexible - needed for custom array size for optimisation
         ArrayList<Integer> missingGene = new ArrayList<>();
@@ -221,11 +184,11 @@ public class CrossOverMutation {
         {
             if(duplicatesCheck[k] < 1){
                 missingGene.add(genesAvail[k+1]);
-                System.out.println(" Missing Gene added: " + genesAvail[k+1]);
+                //System.out.println(" Missing Gene added: " + genesAvail[k+1]);
             }
         }
         
-        System.out.println("Starting main genefixer loop ");
+        //System.out.println("Starting main genefixer loop ");
         
     //Main Loop: Corrects duplicated chromosomes
         for(int i=0;i<chromeSize;i++)
@@ -244,7 +207,7 @@ public class CrossOverMutation {
                     int pickAGene = 0;//random removed to preserve parent relationship
                     int useGene = missingGene.get(pickAGene);
                     
-                    System.out.println(" Chromosome Gene Replaced "+chrome[i+1] +" with "+ useGene);  
+                    //System.out.println(" Chromosome Gene Replaced "+chrome[i+1] +" with "+ useGene);  
                     chrome[i+1] = useGene;//genesAvail[useGene];//Substitute duplicate with missing gene
                                         
                     missingGene.remove(pickAGene);//remove used gene from list

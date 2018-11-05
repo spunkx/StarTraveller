@@ -49,31 +49,23 @@ public class NuGraph extends JFrame {
 
     private XYDataset createDataset(ArrayList<Integer> bestFit, ArrayList<Integer> worstFit, ArrayList<Double> averageFit) {
 
-        //x = time
-        //y = value
         XYSeries best = new XYSeries("Best Fitness");
         XYSeries worst = new XYSeries("Worst Fitness");
         XYSeries avg = new XYSeries("Average Fitness");
         XYSeries bestGlobal = new XYSeries("Best Global Fitness");
-        
+
         int minValue = bestFit.get(0);
-        
+
+        //adds new elements to the graph      
         for(int i = 0; i < bestFit.size(); i++){
             best.add(i, bestFit.get(i));
             worst.add(i, worstFit.get(i));
             avg.add(i, averageFit.get(i));
-            
+
             if(minValue > bestFit.get(i)) minValue = bestFit.get(i);
             bestGlobal.add(i, minValue);
         }
-        
-        /*
-        series.add(18, 567);
-        series.add(20, 612);
-        series.add(25, 800);
-        series.add(30, 980);
-        series.add(40, 1410);
-        series.add(50, 2350);*/
+
 
         XYSeriesCollection dataset = new XYSeriesCollection();
         dataset.addSeries(best);
@@ -87,14 +79,14 @@ public class NuGraph extends JFrame {
     private JFreeChart createChart(XYDataset dataset) {
 
         JFreeChart chart = ChartFactory.createXYLineChart(
-                "Chromosome Performance", 
-                "Generations", 
-                "Chromosome Fitness Value", 
-                dataset, 
+                "Chromosome Performance",
+                "Time ",
+                "Chromosome Fitness Value",
+                dataset,
                 PlotOrientation.VERTICAL,
-                true, 
-                true, 
-                false 
+                true,
+                true,
+                false
         );
 
         XYPlot plot = chart.getXYPlot();
